@@ -4,12 +4,15 @@
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
-    "prettier": "^3.6.2",
-    "husky": "^9.0.0",
-    "lint-staged": "^16.1.6"
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "eslint": "^9.35.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint src --ext .ts,.tsx",
     "format": "prettier --write ."
   },
   "lint-staged": {
