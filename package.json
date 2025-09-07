@@ -4,5 +4,23 @@
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
+    "prettier": "^3.6.2",
+    "husky": "^9.0.0",
+    "lint-staged": "^16.1.6"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write"
+    ],
+    "frontend/**/*.{ts,tsx,js,jsx}": [
+      "cd frontend && npm run lint --silent || true"
+    ],
+    "backend/**/*.ts": [
+      "cd backend && npm run lint --silent || true"
+    ]
   }
 }
