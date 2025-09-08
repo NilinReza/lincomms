@@ -1,0 +1,29 @@
+# CODEOWNERS for LinComms
+# Automatic reviewer assignment and ownership mapping.
+# NOTE: GitHub will request reviews from listed owners, but owners cannot approve their own PRs.
+
+# Default owner for everything not matched below
+* @NilinReza
+
+# Frontend source & config
+/frontend/src/**          @NilinReza
+/frontend/components/**   @NilinReza
+/frontend/public/**       @NilinReza
+/frontend/next.config.*   @NilinReza
+/frontend/tailwind.config.* @NilinReza
+/frontend/postcss.config.*  @NilinReza
+/frontend/eslint.config.*   @NilinReza
+/frontend/tsconfig.*        @NilinReza
+
+# Backend source & config
+/backend/src/**           @NilinReza
+/backend/tsconfig.*       @NilinReza
+/backend/eslint.config.*  @NilinReza
+
+# CI / workflows
+.github/workflows/**      @NilinReza
+
+# Docs & top-level config
+/docs/**                 @NilinReza
+/README.md               @NilinReza
+/package.json            @NilinReza
