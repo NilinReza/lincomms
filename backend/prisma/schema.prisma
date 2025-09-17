@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  name           String?
+  role           Role     @default(MEMBER)
+  hashedPassword String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // invites this user has created
+  invitesCreated Invite[] @relation("InvitedBy")
+
+  // invite this user used to join (1-to-1)
+  acceptedInvite Invite? @relation("AcceptedBy")
+
+  acceptedInviteId Int? @unique // one user can only use one invite
+}
+
+model Invite {
+  id         Int       @id @default(autoincrement())
+  token      String    @unique
+  email      String? // optional: restrict invite to specific email
+  role       Role      @default(MEMBER)
+  expiresAt  DateTime?
+  used       Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  acceptedAt DateTime?
+
+  // who created this invite (many invites can be created by one user)
+  createdById Int?
+  createdBy   User? @relation("InvitedBy", fields: [createdById], references: [id])
+
+  // who accepted this invite (1-to-1)
+  acceptedById Int?  @unique
+  acceptedBy   User? @relation("AcceptedBy", fields: [acceptedById], references: [id])
+}
