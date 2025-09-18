@@ -1,17 +1,16 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 declare global {
   // eslint-disable-next-line no-var
   var __prisma: PrismaClient | undefined;
 }
 
-
 // Prevent multiple instances of Prisma Client in development
 
 export const prisma =
   global.__prisma ??
   new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+    log: ["query", "info", "warn", "error"],
   });
 
-if (process.env.NODE_ENV !== 'production') global.__prisma = prisma;
+if (process.env.NODE_ENV !== "production") global.__prisma = prisma;
