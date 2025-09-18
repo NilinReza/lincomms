@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "lint": "eslint src --ext .ts",
+    "seed": "ts-node prisma/seed.ts",
     "format": "prettier --write ."
   },
   "keywords": [],
