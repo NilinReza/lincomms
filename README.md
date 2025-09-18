@@ -1,11 +1,49 @@
 # LinComms
 
-LinComms — real-time messenger built with Next.js, Node.js, PostgreSQL, Redis, and Prisma.
+> **LinComms** is a **security-first, invite-only communications platform**.
+> Unlike traditional messengers, LinComms enforces **admin-controlled invites** and **role-based access control**, ensuring communication is private, trusted, and controlled.
 
-## Tech stack (overview)
-- Frontend: Next.js + React + TypeScript + Tailwind CSS
-- Backend: Node.js + Express + TypeScript, Socket.IO
-- Database: PostgreSQL + Prisma
-- Realtime: Redis (Pub/Sub, presence)
-- CI/CD: GitHub Actions
-- Deployment: Vercel (frontend), Railway/Neon/Supabase (backend & DB)
+---
+
+## 🚀 Features
+- 🔒 **Invite-only access** — only admins can invite new members
+- 🧑‍🤝‍🧑 **Role-based access control** (Admin / Member)
+- 💬 **Secure messaging** (real-time, WebSockets)
+- ✅ **Authentication system** with JWT + password hashing
+- 🐳 **Dockerized environment** for consistent local development
+- 🧪 **Automated testing** with Jest + Cypress
+- 🌐 **Deployment ready** for Vercel + Railway
+
+---
+
+## 🛠️ Built With
+- **Frontend:** React, Next.js, TailwindCSS
+- **Backend:** Node.js, Express, Socket.IO
+- **Database:** PostgreSQL, Prisma ORM
+- **Real-time:** WebSockets, Redis
+- **DevOps:** Docker, Railway, Vercel
+- **Testing:** Jest, Cypress
+- **Auth & Security:** JWT, bcrypt, Role-based Access Control
+
+---
+
+## 📖 Documentation
+- [Database Schema](./docs/db.md)
+- [Authentication Flow](./docs/auth.md)
+- [Development Workflow](./docs/workflow.md)
+
+---
+
+## 🗺️ Roadmap
+- [x] Database schema with `User` + `Invite` models
+- [ ] Authentication API with JWT & role-based access
+- [ ] Authentication UI (login, signup via invite, logout)
+- [ ] Real-time messaging (Socket.IO + Redis pub/sub)
+- [ ] Presence tracking (online/offline indicators)
+- [ ] Group conversations & channels
+- [ ] Offline sync
+
+---
+
+## 📜 License
+This project is licensed under the [MIT License](./LICENSE).
