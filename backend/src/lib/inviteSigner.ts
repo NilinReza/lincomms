@@ -1,6 +1,6 @@
 import { jwtVerify, importSPKI, importPKCS8 } from "jose";
 import type { JWTPayload } from "jose";
-import { Role } from "../generated/prisma/client.js";
+import { Role } from "@prisma/client";
 import { readFileSync } from "fs";
 
 const INVITE_ISSUER = "lincomms";
@@ -8,7 +8,6 @@ const INVITE_AUDIENCE = "signup";
 
 const publicKeyPem = readFileSync(process.env.INVITE_PUBLIC_KEY!, "utf8");
 const privateKeyPem = readFileSync(process.env.INVITE_PRIVATE_KEY!, "utf8");
-
 
 export const publicKey = await importSPKI(publicKeyPem, "RS256");
 export const privateKey = await importPKCS8(privateKeyPem, "RS256");

@@ -1,5 +1,5 @@
 import { createInvite } from "../src/db/invite.ts";
-import { Role } from "../src/generated/prisma/client.js";
+import { Role } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
