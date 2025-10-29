@@ -1,7 +1,29 @@
 import { createInvite } from "../src/db/invite.ts";
 import { Role } from "../src/generated/prisma/client.js";
-import { prisma } from "../src/lib/prisma.ts";
 import { v4 as uuidv4 } from "uuid";
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
+import { SignJWT, jwtVerify, importPKCS8, importSPKI } from "jose";
+import fs from "fs";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const privateKeyPath = path.resolve(
+  __dirname,
+  "../../backend/keys/dev_private.pem",
+);
+const publicKeyPath = path.resolve(
+  __dirname,
+  "../../backend/keys/dev_public.pem",
+);
+
+const privateKeyPEM = fs.readFileSync(privateKeyPath, "utf8");
+const publicKeyPEM = fs.readFileSync(publicKeyPath, "utf8");
+
+const INVITE_ISSUER = "lincomms";
+const INVITE_AUDIENCE = "signup";
 
 interface CreateInviteParams {
   email: string;
@@ -13,7 +35,40 @@ export async function createInviteHandler(params: CreateInviteParams) {
 
   const invite = await createInvite(jti, params.role, params.email);
 
-  return invite;
+  const privateKey = await importPKCS8(privateKeyPEM, "RS256");
+  const publicKey = await importSPKI(publicKeyPEM, "RS256");
+  const jwt = await new SignJWT({
+    jti,
+    role: params.role,
+    email: params.email,
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  })
+    .setProtectedHeader({ alg: "RS256" })
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .setAudience(INVITE_AUDIENCE)
+    .setIssuer(INVITE_ISSUER)
+    .sign(privateKey);
+
+  const { payload } = await jwtVerify(jwt, publicKey, {
+    issuer: INVITE_ISSUER,
+    audience: INVITE_AUDIENCE,
+  });
+
+  console.log("\n✅ Invite created successfully!");
+  console.log("------------------------------------------------------");
+  console.log(`Email: ${params.email}`);
+  console.log(`Role: ${params.role}`);
+  console.log(`JTI: ${jti}`);
+  console.log("------------------------------------------------------");
+  console.log("🔐 Invite Token (copy this for /signup):");
+  console.log(jwt);
+  console.log("------------------------------------------------------");
+  console.log("📦 Decoded Payload:");
+  console.log(payload);
+  console.log("------------------------------------------------------\n");
+
+  return { ...invite, token: jwt };
 }
 
 if (import.meta.main) {
@@ -22,7 +77,9 @@ if (import.meta.main) {
   const emailArg = args.find((a) => a.startsWith("--email="));
 
   const roleStr = roleArg ? roleArg.split("=")[1] : "MEMBER";
-  const role = Object.values(Role).includes(roleStr as Role) ? (roleStr as Role) : Role.MEMBER;
+  const role = Object.values(Role).includes(roleStr as Role)
+    ? (roleStr as Role)
+    : Role.MEMBER;
   const email = emailArg ? emailArg.split("=")[1] : undefined;
 
   if (!email) {
@@ -31,8 +88,7 @@ if (import.meta.main) {
   }
 
   createInviteHandler({ role, email })
-    .then((invite) => {
-      console.log("Invite created:", invite);
+    .then(() => {
       process.exit(0);
     })
     .catch((err) => {

@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "@tailwindcss/cli": "^4.1.13",
-    "tailwindcss": "^4.1.13"
+    "tailwindcss": "^4.1.13",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@types/uuid": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
     "eslint": "^9.35.0",

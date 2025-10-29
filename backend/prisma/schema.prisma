@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -39,7 +38,7 @@ model User {
 
 model Invite {
   id         Int       @id @default(autoincrement())
-  token      String    @unique
+  jti        String    @unique
   email      String? // optional: restrict invite to specific email
   role       Role      @default(MEMBER)
   expiresAt  DateTime?

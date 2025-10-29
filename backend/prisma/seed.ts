@@ -1,4 +1,4 @@
-import { PrismaClient } from "../src/generated/prisma/client.js";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
@@ -35,7 +35,6 @@ async function main() {
         token,
         email: null, // allows any email
         role: "MEMBER",
-        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
         createdBy: { connect: { email: adminEmail } },
       },
     });
